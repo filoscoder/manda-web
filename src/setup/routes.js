@@ -5,7 +5,9 @@ import { APP_URL_API } from "./config";
 export const routes = {
   home: "/",
 
-  about: "/about"
+  schedule: "/schedule",
+
+  todos: "/todos"
 
   // thoughts: {
   //   list: '/thoughts',
