@@ -1,7 +1,6 @@
 // Imports
 import React, { useState } from "react";
 import { Calendar, Badge } from "antd";
-import "./style.css";
 
 // App Imports
 

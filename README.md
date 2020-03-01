@@ -1,4 +1,8 @@
-<<<<<<< HEAD
+# manda-web
+"manda-web" contains specific and customized web-tools for my wife: `amanda`
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -67,7 +71,3 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `yarn build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-=======
-# manda-web
-"mandatools" contain specific and customized web-tools for my wife: amanda
->>>>>>> 6cd6942065ec7dcb9697d4eddc63e7fe51565c44
