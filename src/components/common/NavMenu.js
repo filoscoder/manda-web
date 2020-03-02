@@ -1,18 +1,17 @@
 // Imports
 import React from "react";
+
+// Import ant-design
 import { Menu, Icon } from "antd";
 import { Link } from "react-router-dom";
-
-// App Imports
 
 // Component
 const NavMenu = props => {
   return (
     <>
-      <div className="logo" />
-      <Menu theme="dark" defaultSelectedKeys={["1"]} mode="horizontal">
+      <Menu theme="dark" defaultSelectedKeys={["2"]} mode="inline">
         <Menu.Item key="1">
-          <Link to="/" exact>
+          <Link to="/">
             <Icon type="home" />
             <span>Inicio</span>
           </Link>

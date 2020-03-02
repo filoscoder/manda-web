@@ -1,17 +1,46 @@
 // Imports
 import React from "react";
 
-// Component
-const Todos = () => (
-  <div>
-    <h1>About</h1>
+// import dummyData from "../../dummyTodos";
 
-    <p>
-      Exsul crederes, tanquam dexter abactor. Cur historia peregrinationes?
-      Nunquam carpseris victrix. A falsis, classis alter rector. Adelphis velox
-      cedrium est. Cadunt sed mire ducunt ad albus onus.
-    </p>
-  </div>
-);
+import WorkIcon from "@material-ui/icons/Work";
+import PersonIcon from "@material-ui/icons/Person";
+
+import { Tabs, Icon } from "antd";
+
+const { TabPane } = Tabs;
+
+// Component
+const Todos = () => {
+  function callback(key) {
+    console.log(key);
+  }
+  return (
+    <Tabs onChange={callback} type="card">
+      <TabPane
+        tab={
+          <span>
+            <Icon type="shopping" />
+            Work
+          </span>
+        }
+        key="1"
+      >
+        Content of Tab Pane 1
+      </TabPane>
+      <TabPane
+        tab={
+          <span>
+            <Icon type="idcard" />
+            Personal
+          </span>
+        }
+        key="2"
+      >
+        Content of Tab Pane 2
+      </TabPane>
+    </Tabs>
+  );
+};
 
 export default Todos;

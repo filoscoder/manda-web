@@ -1,8 +1,10 @@
 // Imports
 import React from "react";
+import { Route, Switch, Link } from "react-router-dom";
+
+// Import ant-design
 import "antd/dist/antd.css";
 import { Result, Button } from "antd";
-import { Route, Switch, Link } from "react-router-dom";
 
 // App Imports
 import { routes } from "../setup/routes";
