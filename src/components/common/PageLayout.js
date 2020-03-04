@@ -4,12 +4,6 @@ import { Link } from "react-router-dom";
 // App Imports
 import NavMenu from "./NavMenu";
 
-import BottomNavigation from "@material-ui/core/BottomNavigation";
-import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
-import RestoreIcon from "@material-ui/icons/Restore";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
-
 // Import ant-design
 import { Layout } from "antd";
 
@@ -26,7 +20,6 @@ const PageLayout = props => {
         <Link to="/">
           <div>LOGO</div>
         </Link>
-        {/* </Menu.Item> */}
       </Header>
       <Layout>
         <Sider

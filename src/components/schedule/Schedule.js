@@ -7,19 +7,22 @@ import TodoList from "../todos/TodoList";
 
 // Import ant-design
 import { Calendar, Badge, Drawer } from "antd";
+import DndLayout from "../common/DndLayout";
 
 // Component
 const Schedule = props => {
   // initialize
   const [showDrawer, setShowDrawer] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(moment(new Date()));
+  const [selectedDate, setSelectedDate] = useState(
+    moment(new Date()).format("MMMM - Do")
+  );
   const [selectedMode, setSelectedMode] = useState("month");
 
   /*
    * [Calendar] Helper functions
    */
 
-  // Call when select a [Date] or [Month]
+  // Called when [Date] || [Month] is selected
   const getSelectedGrid = value => {
     console.log("SELECTED [GRID] => ", selectedDate);
 
@@ -34,14 +37,16 @@ const Schedule = props => {
         setSelectedDate(moment(value).format("MMMM - Do"));
         break;
     }
+    // show Todo [Drawer]
     setShowDrawer(!showDrawer);
   };
 
-  // Called when Panel mode change: [MONTH] / [YEAR]
-  function onPanelChange(value, mode) {
+  // Called when Panel mode [MONTH] || [YEAR] is selected
+  const getSelectedPanel = (value, mode) => {
+    // set selected panel mode
     setSelectedMode(mode);
     console.log("SELECTED [MODE] => ", selectedMode);
-  }
+  };
 
   // Selected [Date] Todo list
   const getListData = value => {
@@ -122,7 +127,7 @@ const Schedule = props => {
     <>
       <div>
         <Calendar
-          onPanelChange={onPanelChange}
+          onPanelChange={getSelectedPanel}
           dateCellRender={dateCellRender}
           monthCellRender={monthCellRender}
           onSelect={getSelectedGrid}
@@ -136,11 +141,9 @@ const Schedule = props => {
           setShowDrawer(!showDrawer);
         }}
         visible={showDrawer}
-        width={420}
+        width={320}
       >
-        <DragDropContext>
-          <TodoList selectedMode={selectedMode} />
-        </DragDropContext>
+        <TodoList selectedMode={selectedMode} />
       </Drawer>
     </>
   );
