@@ -7,10 +7,15 @@ import { getCardDraggingStyle } from "../../utils/dndUtil";
 
 import { Layout, Button, Tooltip, Icon } from "antd";
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Header, Content } = Layout;
 
 // Component
 const DndLayout = props => {
+  // Called when "+" button ("Add to-do!") is clicked
+  const addNewTodo = event => {
+    console.log("[NEW TODO BUTTON] => ", event);
+  };
+
   return (
     <Layout hasSider={false} style={{ maxHeight: "75vh", minWidth: "20vw" }}>
       <Header style={{ background: "white" }}>
@@ -19,6 +24,7 @@ const DndLayout = props => {
             // shape="round"
             size="large"
             block={true}
+            onClick={addNewTodo}
             style={{ background: "#55ba5c", color: "white", border: "none" }}
           >
             <Icon type="plus" />
