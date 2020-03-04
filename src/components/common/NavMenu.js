@@ -9,7 +9,13 @@ import { Link } from "react-router-dom";
 const NavMenu = props => {
   return (
     <>
-      <Menu theme="dark" defaultSelectedKeys={["2"]} mode="inline">
+      <Menu
+        theme="dark"
+        defaultSelectedKeys={["1"]}
+        mode="inline"
+        inlineIndent={20}
+        style={{ width: "inherit" }}
+      >
         <Menu.Item key="1">
           <Link to="/">
             <Icon type="home" />

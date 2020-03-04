@@ -8,16 +8,6 @@ export const routes = {
   schedule: "/schedule",
 
   todos: "/todos"
-
-  // thoughts: {
-  //   list: '/thoughts',
-
-  //   create: '/thoughts/create',
-
-  //   view: (id) => {
-  //     return `/thought/${ id }`
-  //   }
-  // },
 };
 
 export const routesApi = APP_URL_API;

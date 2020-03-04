@@ -64,8 +64,8 @@ const TodoList = props => {
             {workTodos ? (
               workTodos.map((currentValue, index) => (
                 <TodoCard
-                  key={currentValue.id}
-                  todoType={props.tab1Key}
+                  key={index}
+                  todoType={selectedTab}
                   dragId={currentValue.id}
                   dragIndex={index}
                   taskContent={currentValue.taskContent}
@@ -102,7 +102,8 @@ const TodoList = props => {
             {personalTodos ? (
               personalTodos.map((currentValue, index) => (
                 <TodoCard
-                  todoType={props.tab1Key}
+                  key={index}
+                  todoType={selectedTab}
                   dragId={currentValue.id}
                   dragIndex={currentValue.index}
                   taskContent={currentValue.taskContent}
