@@ -1,83 +1,138 @@
+// Imports
 import React, { useState, useEffect } from "react";
 
-// Import ant-design
-import { Result, Icon } from "antd";
-// Import material-ui
-import Grid from "@material-ui/core/Grid";
-
-// App import
+// App imports
+import DndLayout from "../common/DndLayout";
 import TodoCard from "../todos/TodoCard";
-// Mock data import
-import dummyData from "../../dummyTodos";
 
+import dummyDatas from "../../dummyTodos";
+
+// Ant-design imports
+import { Tabs, Icon, Result } from "antd";
+const { TabPane } = Tabs;
+
+// Component
 const TodoList = props => {
-  const [workTodos, setWorkTodos] = useState();
-  const [personalTodos, setPersonalTodos] = useState();
+  // Initialize
+  const [selectedTab, setSelectedTab] = useState("Work");
+  const [workTodos, setWorkTodos] = useState([]);
+  const [personalTodos, setPersonalTodos] = useState([]);
 
-  //   [Schedule] selectedMode: ["month"] || ["year"]
-  switch (props.selectedMode) {
-    case "month":
-      return (
-        //   ["month"] TodoType: ["work"] || ["personal"]
-        <>
-          <Grid container spacing={1}>
-            {/* ["work"] : [Todo grid container] || [Result 404] */}
-            <Grid item sm={6}>
-              {workTodos ? (
-                <Grid container justify="center" spacing={2}>
-                  {workTodos.map(item => (
-                    <Grid key={item.id} item>
-                      <TodoCard
-                        taskDate={item.taskDate}
-                        taskContent={item.taskContent}
-                        taskPriority={item.taskPriority}
-                        client={item.client}
-                        vendor={item.vendor}
-                      />
-                    </Grid>
-                  ))}
-                </Grid>
-              ) : (
-                <Result
-                  icon={<Icon type="meh" />}
-                  title="일 안해!?"
-                  subTitle="현아야하.. 피라미드 꼭대기 올라가야쥐!"
-                />
-              )}
-            </Grid>
+  // Called when [Work] || [Personal] tab is selected
+  const getSelectedTabKey = key => {
+    setSelectedTab(key);
+    console.log("Selected [Tab] => ", selectedTab);
+    switch (key) {
+      case "Work":
+        setWorkTodos(dummyDatas);
+        console.log("[Work-Todos]:\n", workTodos);
+        break;
+      case "Personal":
+        setPersonalTodos(dummyDatas);
+        console.log("[Personal-Todos]:\n", personalTodos);
+        break;
 
-            {/* ["personal"] : [Todo grid container] || [Result 404] */}
-            <Grid item sm={6}>
-              {personalTodos ? (
-                <Grid container justify="center" spacing={2}>
-                  {personalTodos.map(item => (
-                    <Grid key={item.id} item>
-                      <TodoCard
-                        taskDate={item.taskDate}
-                        taskContent={item.taskContent}
-                        taskPriority={item.taskPriority}
-                        client={item.client}
-                        vendor={item.vendor}
-                      />
-                    </Grid>
-                  ))}
-                </Grid>
-              ) : (
-                <Result
-                  icon={<Icon type="smile" />}
-                  title="Relax"
-                  subTitle="일 없음돠! 헿"
+      default:
+        break;
+    }
+  };
+
+  useEffect(() => {
+    setWorkTodos(dummyDatas);
+    setPersonalTodos(dummyDatas);
+  }, []);
+
+  return (
+    <Tabs
+      onChange={getSelectedTabKey}
+      defaultActiveKey={selectedTab}
+      type="card"
+    >
+      {/* TAB 1 => [WORK] */}
+      <TabPane
+        tab={
+          <span>
+            <Icon type={props.tab1Icon} />
+            {props.tab1Key}
+          </span>
+        }
+        key={props.tab1Key}
+      >
+        {/* Content of Tab Pane 1 */}
+        <div className="tab-1-content">
+          <DndLayout dropId={"dropable-1"} dropType={props.tab1Key}>
+            {workTodos ? (
+              workTodos.map((currentValue, index) => (
+                <TodoCard
+                  key={currentValue.id}
+                  todoType={props.tab1Key}
+                  dragId={currentValue.id}
+                  dragIndex={index}
+                  taskContent={currentValue.taskContent}
+                  taskPriority={currentValue.taskPriority}
+                  client={currentValue.client}
+                  vendor={currentValue.vendor}
+                  createdAt={currentValue.createdAt}
+                  updatedAt={currentValue.updatedAt}
                 />
-              )}
-            </Grid>
-          </Grid>
-        </>
-      );
-    case "year":
-      return <h1>YEAR CONTENT!</h1>;
-    default:
-      break;
-  }
+              ))
+            ) : (
+              <Result
+                icon={<Icon type="meh" />}
+                title="일 안해!?"
+                subTitle="현아야하.. 피라미드 꼭대기 올라가야쥐!"
+              />
+            )}
+          </DndLayout>
+        </div>
+      </TabPane>
+      {/* TAB 2 => [PERSONAL] */}
+      <TabPane
+        tab={
+          <span>
+            <Icon type={props.tab2Icon} />
+            {props.tab2Key}
+          </span>
+        }
+        key={props.tab2Key}
+      >
+        {/* Content of Tab Pane 2 */}
+        <div className="tab-2-content">
+          <DndLayout dropId={"dropable-2"} dropType={props.tab2Key}>
+            {personalTodos ? (
+              personalTodos.map((currentValue, index) => (
+                <TodoCard
+                  todoType={props.tab1Key}
+                  dragId={currentValue.id}
+                  dragIndex={currentValue.index}
+                  taskContent={currentValue.taskContent}
+                  taskPriority={currentValue.taskPriority}
+                  client={currentValue.client}
+                  vendor={currentValue.vendor}
+                  createdAt={currentValue.createdAt}
+                  updatedAt={currentValue.updatedAt}
+                />
+              ))
+            ) : (
+              <Result
+                icon={<Icon type="smile" />}
+                title="Relax"
+                subTitle="일 없음돠! 헿"
+              />
+            )}
+          </DndLayout>
+        </div>
+      </TabPane>
+    </Tabs>
+  );
+};
+
+TodoList.defaultProps = {
+  tab1Key: "Work",
+  tab2Key: "Personal",
+  tab1Icon: "shopping",
+  tab2Icon: "idcard",
+  selectedMode: "Month"
 };
 
 export default TodoList;
