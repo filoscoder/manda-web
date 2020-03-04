@@ -26,6 +26,7 @@ const PageLayout = props => {
           collapsible
           collapsed={collapseSider}
           onCollapse={() => setCollapseSider(!collapseSider)}
+          collapsedWidth={60}
         >
           <NavMenu />
         </Sider>

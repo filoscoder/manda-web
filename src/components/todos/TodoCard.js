@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 import { Draggable } from "react-beautiful-dnd";
+import todoPriorityColor from "../../const/todoPriorityColor";
 
 // Import Material-UI
 import { Card, CardHeader } from "@material-ui/core";
@@ -29,10 +30,16 @@ const TodoCard = props => {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
-            <Card style={{ margin: "5px" }}>
+            <Card
+              className="draggable-card"
+              style={{
+                margin: "5px",
+                background: `${todoPriorityColor[props.taskPriority]}`
+              }}
+            >
               <CardHeader
                 action={
-                  <Tooltip title="is Done?">
+                  <Tooltip title="Done?">
                     <Button
                       style={{ border: "none" }}
                       shape="circle"
@@ -47,28 +54,30 @@ const TodoCard = props => {
                   <>
                     <p
                       style={{
-                        textAlign: "center",
+                        color: "black",
                         fontSize: "12px",
                         margin: "0px auto"
                       }}
                     >
                       {props.taskContent}
                     </p>
-                    <p
-                      style={{
-                        fontWeight: "300",
-                        marginTop: "0px",
-                        marginBottom: "0px"
-                      }}
-                    >
-                      <Tag color="magenta" style={{ fontSize: "9px" }}>
-                        {props.client}
-                      </Tag>
-                      {/* <br /> */}
-                      <Tag color="geekblue" style={{ fontSize: "9px" }}>
-                        {props.vendor}
-                      </Tag>
-                    </p>
+                    {props.todoType === "Work" ? (
+                      <p
+                        style={{
+                          fontWeight: "300",
+                          margin: "0px 0px"
+                        }}
+                      >
+                        <Tag color="#f50" style={{ fontSize: "9px" }}>
+                          {props.client}
+                        </Tag>
+                        <Tag color="#2db7f5" style={{ fontSize: "9px" }}>
+                          {props.vendor}
+                        </Tag>
+                      </p>
+                    ) : (
+                      ""
+                    )}
                   </>
                 }
               />

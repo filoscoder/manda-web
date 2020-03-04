@@ -24,13 +24,7 @@ export const getItemStyle = (isDragging, draggableStyle) => {
   };
 };
 
-export const getListDraggingStyle = isDraggingOver => ({
-  background: isDraggingOver ? "lightgray" : "white",
-  padding: 8,
-  width: 350
-});
-
 export const getCardDraggingStyle = isDraggingOver => ({
   background: isDraggingOver ? "lightgray" : "transparent",
-  width: 275
+  width: 265
 });
