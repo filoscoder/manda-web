@@ -23,9 +23,25 @@ const DndLayout = props => {
     setIsDragging(true);
     console.log("DRAG [START]!!!!!? => ", isDragging);
   };
-  const onDragEnd = () => {
+  const onDragEnd = result => {
     setIsDragging(false);
-    console.log("DRAG [END]!!!!!? => ", isDragging);
+    // if there isn't a [destination]
+    if (!result.destination) {
+      return;
+    }
+    const { source, destination } = result;
+
+    if (
+      source.droppableId === destination.droppableId &&
+      source.index === destination.index
+    ) {
+      console.log("[SAME] SPOT!");
+      return;
+    } else {
+      console.log("[ANOTHER] SPOT!");
+    }
+
+    console.log("DRAG [END]!!!!!? => ", result);
   };
 
   return (
@@ -42,19 +58,15 @@ const DndLayout = props => {
           </Button>
         </Tooltip>
       </Header>
-      <DragDropContext
-        onDragEnd={result => console.log("onDragEnd => ", result)}
-        onDragStart={onDragStart}
-        onDragEnd={onDragEnd}
-      >
-        <Content style={{ overflowX: "hidden", overflowX: "auto" }}>
+      <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
+        <Content style={{ overflowX: "auto" }}>
           <Droppable
-            droppableId={props.dropToReorderCard}
+            droppableId="dropable-reordable"
             ignoreContainerClipping={true}
-            type={props.dropType}
           >
             {(provided, snapshot) => (
               <div
+                {...provided.droppableProps}
                 ref={provided.innerRef}
                 style={getCardDraggingStyle(snapshot.isDraggingOver)}
               >
@@ -64,31 +76,28 @@ const DndLayout = props => {
             )}
           </Droppable>
         </Content>
-        {isDragging ? (
-          <Droppable
-            droppableId={props.dropToRemoveCard}
-            ignoreContainerClipping={true}
-          >
+
+        <Footer style={{ textAlign: "center" }}>
+          <Droppable droppableId="dropable-removable">
             {(provided, snapshot) => (
               <div
+                {...provided.droppableProps}
                 ref={provided.innerRef}
-                // style={getCardDraggingStyle(snapshot.isDraggingOver)}
+                style={{
+                  backgroundColor: snapshot.isDraggingOver
+                    ? "blue"
+                    : "transparent"
+                }}
               >
-                <Footer style={{ textAlign: "center" }}>
-                  <Tooltip title="Delete to-do?">
-                    <Button type="danger" shape="round" size="large">
-                      <Icon type="delete" />
-                    </Button>
-                  </Tooltip>
-                </Footer>
-
-                {provided.placeholder}
+                <Tooltip title="Delete to-do?">
+                  <Button type="danger" shape="round" size="large" block={true}>
+                    <Icon type="delete" />
+                  </Button>
+                </Tooltip>
               </div>
             )}
           </Droppable>
-        ) : (
-          ""
-        )}
+        </Footer>
       </DragDropContext>
     </Layout>
   );
@@ -96,7 +105,7 @@ const DndLayout = props => {
 
 DndLayout.defaultProps = {
   dropToReorderCard: "dropable-reordable",
-  dropToRemoveCard: "dropable-removable",
+  dropToRemoveCard: "dropableRemovable",
   dropType: "WORK"
 };
 
