@@ -1,91 +1,71 @@
+// Imports
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 import { Draggable } from "react-beautiful-dnd";
-import todoPriorityColor from "../../const/todoPriorityColor";
 
-// Import Material-UI
-import { Card, CardHeader } from "@material-ui/core";
-import DoneIcon from "@material-ui/icons/Done"; // Icon before Done
-import VerifiedUserIcon from "@material-ui/icons/VerifiedUser"; // Icon after Done
+// Util imports
+import { getCardStyle, getTagContentStyle } from "../../utils/dndUtil";
 
 // Import ant-design
-import { Tag, Button, Tooltip } from "antd";
+import { Tag, Tooltip, Card, Checkbox } from "antd";
+const { Meta } = Card;
 
+// Component
 const TodoCard = props => {
-  const [isDone, setIsDone] = useState(false);
-  const [todosType, setTodosType] = useState(props.todoType);
-
-  const handleTodoDone = e => {
-    console.log("TODO DONE!", e);
-    setIsDone(!isDone);
+  // Called when [Card] checkbox is clicked
+  const handleCheckBox = e => {
+    console.log(`checked = ${e.target.checked}`);
+    console.log(e.target);
   };
 
   return (
-    <>
-      {/* draggableId & index MUST BE UNIQUE! */}
-      <Draggable draggableId={props.dragId} index={props.dragIndex}>
-        {(provided, snapshot) => (
-          <div
-            ref={provided.innerRef}
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-          >
-            <Card
-              className="draggable-card"
-              style={{
-                margin: "5px",
-                background: `${todoPriorityColor[props.taskPriority]}`
-              }}
-            >
-              <CardHeader
-                action={
-                  <Tooltip title="Done?">
-                    <Button
-                      style={{ border: "none" }}
-                      shape="circle"
-                      size="small"
-                      onClick={handleTodoDone}
-                    >
-                      {isDone ? <VerifiedUserIcon /> : <DoneIcon />}
-                    </Button>
+    // draggableId & index MUST BE UNIQUE!
+    <Draggable draggableId={props.dragId} index={props.dragIndex}>
+      {(provided, snapshot) => (
+        <div
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
+          <Card
+            className="draggable-card"
+            hoverable={true}
+            size="small"
+            style={getCardStyle(props.taskPriority)}
+            headStyle={{ border: "none" }}
+            bodyStyle={{ padding: "auto" }}
+            title={
+              props.todoType === "Work" ? (
+                <Checkbox className={props.dragId} onChange={handleCheckBox}>
+                  <Tooltip title={props.taskContent}>
+                    {props.taskContent}
                   </Tooltip>
-                }
-                subheader={
-                  <>
-                    <p
-                      style={{
-                        color: "black",
-                        fontSize: "12px",
-                        margin: "0px auto"
-                      }}
-                    >
+                </Checkbox>
+              ) : (
+                ""
+              )
+            }
+          >
+            <Meta
+              title={
+                props.todoType === "Personal" ? (
+                  <Checkbox onChange={handleCheckBox}>
+                    <Tooltip title={props.taskContent}>
                       {props.taskContent}
-                    </p>
-                    {props.todoType === "Work" ? (
-                      <p
-                        style={{
-                          fontWeight: "300",
-                          margin: "0px 0px"
-                        }}
-                      >
-                        <Tag color="#f50" style={{ fontSize: "9px" }}>
-                          {props.client}
-                        </Tag>
-                        <Tag color="#2db7f5" style={{ fontSize: "9px" }}>
-                          {props.vendor}
-                        </Tag>
-                      </p>
-                    ) : (
-                      ""
-                    )}
-                  </>
-                }
-              />
-            </Card>
-          </div>
-        )}
-      </Draggable>
-    </>
+                    </Tooltip>
+                  </Checkbox>
+                ) : (
+                  <p style={getTagContentStyle()}>
+                    <Tag color="#f50">{props.client}</Tag>
+                    <Tag color="#1890ff">{props.vendor}</Tag>
+                  </p>
+                )
+              }
+            />
+          </Card>
+        </div>
+      )}
+    </Draggable>
   );
 };
 
