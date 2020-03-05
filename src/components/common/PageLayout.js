@@ -7,7 +7,7 @@ import NavMenu from "./NavMenu";
 // Import ant-design
 import { Layout } from "antd";
 
-const { Sider, Header, Content, Footer } = Layout;
+const { Sider, Header, Content } = Layout;
 
 // Component
 const PageLayout = props => {
@@ -15,7 +15,7 @@ const PageLayout = props => {
   const [collapseSider, setCollapseSider] = useState(true);
 
   return (
-    <Layout style={{ minHeight: "70vh" }}>
+    <Layout style={{ minHeight: "70vh", height: "100%" }}>
       <Header>
         <Link to="/">
           <div>LOGO</div>
@@ -27,6 +27,7 @@ const PageLayout = props => {
           collapsed={collapseSider}
           onCollapse={() => setCollapseSider(!collapseSider)}
           collapsedWidth={60}
+          style={{ height: "90vh" }}
         >
           <NavMenu />
         </Sider>
@@ -43,7 +44,6 @@ const PageLayout = props => {
           </div>
         </Content>
       </Layout>
-      <Footer style={{ textAlign: "center" }}></Footer>
     </Layout>
   );
 };

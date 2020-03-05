@@ -1,13 +1,11 @@
 // Imports
 import React, { useState } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import moment from "moment";
 // App Imports
 import TodoList from "../todos/TodoList";
 
 // Import ant-design
 import { Calendar, Badge, Drawer } from "antd";
-import DndLayout from "../common/DndLayout";
 
 // Component
 const Schedule = props => {

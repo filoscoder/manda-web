@@ -3,9 +3,6 @@ import React from "react";
 
 // import dummyData from "../../dummyTodos";
 
-import WorkIcon from "@material-ui/icons/Work";
-import PersonIcon from "@material-ui/icons/Person";
-
 import { Tabs, Icon } from "antd";
 
 const { TabPane } = Tabs;
