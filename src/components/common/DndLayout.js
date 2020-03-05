@@ -1,5 +1,5 @@
 // Imports
-import React from "react";
+import React, { useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 // Util imports
@@ -7,21 +7,32 @@ import { getCardDraggingStyle } from "../../utils/dndUtil";
 
 import { Layout, Button, Tooltip, Icon } from "antd";
 
-const { Header, Content } = Layout;
+const { Header, Content, Footer } = Layout;
 
 // Component
 const DndLayout = props => {
+  // Initialize
+  const [isDragging, setIsDragging] = useState(false);
   // Called when "+" button ("Add to-do!") is clicked
   const addNewTodo = event => {
     console.log("[NEW TODO BUTTON] => ", event);
   };
 
+  // <DragDropContext> methods
+  const onDragStart = () => {
+    setIsDragging(true);
+    console.log("DRAG [START]!!!!!? => ", isDragging);
+  };
+  const onDragEnd = () => {
+    setIsDragging(false);
+    console.log("DRAG [END]!!!!!? => ", isDragging);
+  };
+
   return (
-    <Layout hasSider={false} style={{ maxHeight: "75vh", minWidth: "20vw" }}>
+    <Layout hasSider={false} style={{ maxHeight: "80vh" }}>
       <Header style={{ background: "white" }}>
         <Tooltip title="Add to-do!">
           <Button
-            // shape="round"
             size="large"
             block={true}
             onClick={addNewTodo}
@@ -31,12 +42,14 @@ const DndLayout = props => {
           </Button>
         </Tooltip>
       </Header>
-      <Content style={{ overflowX: "hidden", overflowX: "auto" }}>
-        <DragDropContext
-          onDragEnd={result => console.log("onDragEnd => ", result)}
-        >
+      <DragDropContext
+        onDragEnd={result => console.log("onDragEnd => ", result)}
+        onDragStart={onDragStart}
+        onDragEnd={onDragEnd}
+      >
+        <Content style={{ overflowX: "hidden", overflowX: "auto" }}>
           <Droppable
-            droppableId={props.dropId}
+            droppableId={props.dropToReorderCard}
             ignoreContainerClipping={true}
             type={props.dropType}
           >
@@ -50,17 +63,41 @@ const DndLayout = props => {
               </div>
             )}
           </Droppable>
-        </DragDropContext>
-      </Content>
+        </Content>
+        {isDragging ? (
+          <Droppable
+            droppableId={props.dropToRemoveCard}
+            ignoreContainerClipping={true}
+          >
+            {(provided, snapshot) => (
+              <div
+                ref={provided.innerRef}
+                // style={getCardDraggingStyle(snapshot.isDraggingOver)}
+              >
+                <Footer style={{ textAlign: "center" }}>
+                  <Tooltip title="Delete to-do?">
+                    <Button type="danger" shape="round" size="large">
+                      <Icon type="delete" />
+                    </Button>
+                  </Tooltip>
+                </Footer>
+
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        ) : (
+          ""
+        )}
+      </DragDropContext>
     </Layout>
   );
 };
 
 DndLayout.defaultProps = {
-  dropId: "dropable-1",
-  dropType: "WORK",
-  dragId: "dragable-1",
-  dragIndex: 1
+  dropToReorderCard: "dropable-reordable",
+  dropToRemoveCard: "dropable-removable",
+  dropType: "WORK"
 };
 
 export default DndLayout;

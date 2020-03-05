@@ -60,7 +60,7 @@ const TodoList = props => {
       >
         {/* Content of Tab Pane 1 */}
         <div className="tab-1-content">
-          <DndLayout dropId={"dropable-1"} dropType={props.tab1Key}>
+          <DndLayout dropType={props.tab1Key}>
             {workTodos ? (
               workTodos.map((currentValue, index) => (
                 <TodoCard
@@ -105,7 +105,7 @@ const TodoList = props => {
                   key={index}
                   todoType={selectedTab}
                   dragId={currentValue.id}
-                  dragIndex={currentValue.index}
+                  dragIndex={index}
                   taskContent={currentValue.taskContent}
                   taskPriority={currentValue.taskPriority}
                   client={currentValue.client}

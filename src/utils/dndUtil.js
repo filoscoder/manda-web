@@ -1,3 +1,5 @@
+import todoPriorityColor from "../const/todoPriorityColor";
+
 // a little function to help us with reordering the result
 export const Reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -7,24 +9,16 @@ export const Reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-const grid = 6;
-export const getItemStyle = (isDragging, draggableStyle) => {
-  return {
-    // some basic styles to make the items look a bit nicer
-    userSelect: "none",
-    padding: grid * 2,
-    margin: `0 0 ${grid}px 0`,
-    textAlign: "right",
-
-    // change background colour if dragging
-    background: isDragging ? "lightgreen" : "grey",
-
-    // styles we need to apply on draggables
-    ...draggableStyle
-  };
-};
-
 export const getCardDraggingStyle = isDraggingOver => ({
   background: isDraggingOver ? "lightgray" : "transparent",
   width: 265
+});
+export const getCardStyle = taskPriority => ({
+  margin: "4px",
+  background: `${todoPriorityColor[taskPriority]}`
+});
+export const getTagContentStyle = () => ({
+  fontWeight: "400",
+  margin: "0px",
+  float: "right"
 });
