@@ -1,9 +1,14 @@
 // Imports
 import React, { useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-
+// App imports
+import ButtonBase from "../common/ButtonBase";
 // Util imports
-import { getCardDraggingStyle } from "../../utils/dndUtil";
+import {
+  getCardDraggingStyle,
+  getRemoveDroppingStyle,
+  getDroppableDisplayStyle
+} from "../../utils/dndUtil";
 
 import { Layout, Button, Tooltip, Icon } from "antd";
 
@@ -19,6 +24,10 @@ const DndLayout = props => {
   };
 
   // <DragDropContext> methods
+  const onBeforeCapture = isDraggingOver => {
+    setIsDragging(isDraggingOver);
+    console.log("DRAG [START]!!!!!? => ", isDragging);
+  };
   const onDragStart = () => {
     setIsDragging(true);
     console.log("DRAG [START]!!!!!? => ", isDragging);
@@ -45,23 +54,26 @@ const DndLayout = props => {
   };
 
   return (
-    <Layout hasSider={false} style={{ maxHeight: "80vh" }}>
+    <Layout hasSider={false} style={{ maxHeight: "75vh" }}>
       <Header style={{ background: "white" }}>
-        <Tooltip title="Add to-do!">
-          <Button
-            size="large"
-            block={true}
-            onClick={addNewTodo}
-            style={{ background: "#55ba5c", color: "white", border: "none" }}
-          >
-            <Icon type="plus" />
-          </Button>
-        </Tooltip>
+        <ButtonBase
+          tooltip="Add to-do!"
+          btnSize="large"
+          btnBlock={true}
+          btnStyle={{ background: "#55ba5c", color: "white", border: "none" }}
+          iconType="plus"
+          onClick={addNewTodo}
+        />
       </Header>
-      <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
+      <DragDropContext
+        onDragStart={onDragStart}
+        onDragEnd={onDragEnd}
+        onBeforeCapture={onBeforeCapture}
+      >
         <Content style={{ overflowX: "auto" }}>
+          {/* ["dropable-todos"] */}
           <Droppable
-            droppableId="dropable-reordable"
+            droppableId={props.dropToReorderCard}
             ignoreContainerClipping={true}
           >
             {(provided, snapshot) => (
@@ -76,36 +88,34 @@ const DndLayout = props => {
             )}
           </Droppable>
         </Content>
-
-        <Footer style={{ textAlign: "center" }}>
-          <Droppable droppableId="dropable-removable">
-            {(provided, snapshot) => (
-              <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                style={{
-                  backgroundColor: snapshot.isDraggingOver
-                    ? "blue"
-                    : "transparent"
-                }}
-              >
-                <Tooltip title="Delete to-do?">
-                  <Button type="danger" shape="round" size="large" block={true}>
-                    <Icon type="delete" />
-                  </Button>
-                </Tooltip>
-              </div>
-            )}
-          </Droppable>
-        </Footer>
+        {/* ["dropable-trash"] */}
+        <Droppable droppableId={props.dropToRemoveCard}>
+          {(provided, snapshot) => (
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              style={getDroppableDisplayStyle(isDragging)}
+            >
+              <Footer style={getRemoveDroppingStyle(snapshot.isDraggingOver)}>
+                <ButtonBase
+                  tooltip="Delete to-do?"
+                  btnType="danger"
+                  btnSize="large"
+                  btnShape="round"
+                  iconType="delete"
+                />
+              </Footer>
+            </div>
+          )}
+        </Droppable>
       </DragDropContext>
     </Layout>
   );
 };
 
 DndLayout.defaultProps = {
-  dropToReorderCard: "dropable-reordable",
-  dropToRemoveCard: "dropableRemovable",
+  dropToReorderCard: "dropable-todos",
+  dropToRemoveCard: "dropable-remove",
   dropType: "WORK"
 };
 
