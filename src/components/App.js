@@ -1,10 +1,11 @@
 // Imports
 import React from "react";
 import { Route, Switch, Link } from "react-router-dom";
-
+// App imports
+import ButtonBase from "./common/ButtonBase";
 // Import ant-design
 import "antd/dist/antd.css";
-import { Result, Button } from "antd";
+import { Result } from "antd";
 
 // App Imports
 import { routes } from "../setup/routes";
@@ -28,7 +29,11 @@ const App = () => (
           subTitle="Sorry, the page you visited does not exist."
           extra={
             <Link to="/">
-              <Button type="primary">Back Home</Button>
+              <ButtonBase
+                tooltip="Back to home"
+                btnType="primary"
+                btnText="Back Home"
+              />
             </Link>
           }
         />

@@ -10,32 +10,45 @@ const NavMenu = props => {
   return (
     <>
       <Menu
-        theme="dark"
+        theme={props.menuTheme}
         defaultSelectedKeys={["1"]}
-        mode="inline"
-        inlineIndent={20}
+        mode={props.menuMode}
+        inlineIndent={props.menuInLineIndent}
         style={{ width: "inherit" }}
       >
         <Menu.Item key="1">
           <Link to="/">
-            <Icon type="home" />
-            <span>Inicio</span>
+            <Icon type={props.itemIcon1} />
+            <span>{props.item1}</span>
           </Link>
         </Menu.Item>
         <Menu.Item key="2">
           <Link to="/schedule">
-            <Icon type="calendar" />
-            <span>Calendario</span>
+            <Icon type={props.itemIcon2} />
+            <span>{props.item2}</span>
           </Link>
         </Menu.Item>
         <Menu.Item key="3">
           <Link to="/todos">
-            <Icon type="bars" />
-            <span>Tareas</span>
+            <Icon type={props.itemIcon3} />
+            <span>{props.item3}</span>
           </Link>
         </Menu.Item>
       </Menu>
     </>
   );
 };
+
+NavMenu.defaultProps = {
+  menuTheme: "light",
+  menuMode: "vertical",
+  menuInLineIndent: 24,
+  item1: null,
+  itemIcon1: null,
+  item2: null,
+  itemIcon2: null,
+  item3: null,
+  itemIcon3: null
+};
+
 export default NavMenu;

@@ -10,7 +10,7 @@ import {
   getDroppableDisplayStyle
 } from "../../utils/dndUtil";
 
-import { Layout, Button, Tooltip, Icon } from "antd";
+import { Layout } from "antd";
 
 const { Header, Content, Footer } = Layout;
 

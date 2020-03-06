@@ -29,7 +29,17 @@ const PageLayout = props => {
           collapsedWidth={60}
           style={{ height: "90vh" }}
         >
-          <NavMenu />
+          <NavMenu
+            menuTheme={"dark"}
+            menuMode={"inline"}
+            menuInLineIndent={20}
+            item1={"Inicio"}
+            itemIcon1={"home"}
+            item2={"Calendario"}
+            itemIcon2={"calendar"}
+            item3={"Tareas"}
+            itemIcon3={"bars"}
+          />
         </Sider>
         <Content style={{ margin: "5px 15px" }}>
           <div
