@@ -27,12 +27,12 @@ const PageLayout = props => {
           collapsed={collapseSider}
           onCollapse={() => setCollapseSider(!collapseSider)}
           collapsedWidth={60}
-          style={{ height: "90vh" }}
+          theme={props.pageTheme}
         >
           <NavMenu
-            menuTheme={"dark"}
+            menuTheme={props.pageTheme}
             menuMode={"inline"}
-            menuInLineIndent={20}
+            menuInLineIndent={24}
             item1={"Inicio"}
             itemIcon1={"home"}
             item2={"Calendario"}
@@ -44,10 +44,9 @@ const PageLayout = props => {
         <Content style={{ margin: "5px 15px" }}>
           <div
             style={{
-              alignContent: "center",
               padding: 5,
-              background: "#fff",
-              minHeight: "86vh"
+              background: "#ffff",
+              minHeight: "88vh"
             }}
           >
             {props.children}

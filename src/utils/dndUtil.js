@@ -11,10 +11,11 @@ export const Reorder = (list, startIndex, endIndex) => {
 
 export const getCardDraggingStyle = isDraggingOver => ({
   background: isDraggingOver ? "lightgray" : "transparent",
-  width: 265
+  width: 270
 });
 export const getCardStyle = taskPriority => ({
-  margin: "4px",
+  margin: "2px",
+  borderRadius: "5px",
   background: `${todoPriorityColor[taskPriority]}`
 });
 export const getTagContentStyle = () => ({

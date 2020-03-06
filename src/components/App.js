@@ -16,7 +16,7 @@ import Todos from "./home/Todos";
 
 // Component
 const App = () => (
-  <PageLayout>
+  <PageLayout pageTheme={"dark"}>
     <Switch>
       {/* Common */}
       <Route path={routes.todos} exact component={Todos} />
