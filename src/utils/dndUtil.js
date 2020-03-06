@@ -22,3 +22,10 @@ export const getTagContentStyle = () => ({
   margin: "0px",
   float: "right"
 });
+export const getRemoveDroppingStyle = isDraggingOver => ({
+  textAlign: "center",
+  backgroundColor: isDraggingOver ? "#fcd9d9" : "transparent"
+});
+export const getDroppableDisplayStyle = isDragging => ({
+  display: isDragging ? "block" : "none"
+});
