@@ -19,7 +19,9 @@ export const getCardStyle = taskPriority => ({
   background: `${todoPriorityColor[taskPriority]}`
 });
 export const getTagContentStyle = () => ({
-  fontWeight: "400",
+  textAlign: "center",
+  border: "none",
+  fontWeight: "500",
   margin: "0px",
   float: "right"
 });
