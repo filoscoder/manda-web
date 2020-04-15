@@ -26,7 +26,7 @@ const DndLayout = props => {
   // <DragDropContext> methods
   const onBeforeCapture = isDraggingOver => {
     setIsDragging(isDraggingOver);
-    console.log("DRAG [START]!!!!!? => ", isDragging);
+    // console.log("DRAG [START]!!!!!? => ", isDragging);
   };
   const onDragStart = () => {
     setIsDragging(true);
@@ -34,27 +34,29 @@ const DndLayout = props => {
   };
   const onDragEnd = result => {
     setIsDragging(false);
+    const { source, destination } = result;
+
     // if there isn't a [destination]
-    if (!result.destination) {
+    if (!destination) {
       return;
     }
-    const { source, destination } = result;
 
     if (
       source.droppableId === destination.droppableId &&
       source.index === destination.index
     ) {
-      console.log("[SAME] SPOT!");
+      console.log("[CARD REORDERED !]");
       return;
     } else {
-      console.log("[ANOTHER] SPOT!");
+      console.log("[CARD DELETED !]");
     }
 
     console.log("DRAG [END]!!!!!? => ", result);
   };
 
   return (
-    <Layout hasSider={false} style={{ maxHeight: "75vh" }}>
+    <Layout hasSider={false}>
+      {/* Create new To-do Button */}
       <Header style={{ background: "white" }}>
         <ButtonBase
           tooltip="Add to-do!"
@@ -82,6 +84,7 @@ const DndLayout = props => {
                 ref={provided.innerRef}
                 style={getCardDraggingStyle(snapshot.isDraggingOver)}
               >
+                {/* Iterated TodoCard components */}
                 {props.children}
                 {provided.placeholder}
               </div>

@@ -15,12 +15,12 @@ const PageLayout = props => {
   const [collapseSider, setCollapseSider] = useState(true);
 
   return (
-    <Layout style={{ minHeight: "70vh", height: "100%" }}>
-      <Header>
+    <Layout style={{ height: "100%" }}>
+      {/* <Header>
         <Link to="/">
           <div>LOGO</div>
         </Link>
-      </Header>
+      </Header> */}
       <Layout>
         <Sider
           collapsible
@@ -46,7 +46,7 @@ const PageLayout = props => {
             style={{
               padding: 5,
               background: "#ffff",
-              minHeight: "88vh"
+              minHeight: "100vh"
             }}
           >
             {props.children}

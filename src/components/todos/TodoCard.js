@@ -80,6 +80,7 @@ const TodoCard = props => {
                     onMouseLeave={() => setEditTags(true)}
                     onChange={handleTagInput}
                     style={getTagContentStyle()}
+                    open={!editTags}
                   />
                 )
               }
