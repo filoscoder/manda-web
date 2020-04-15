@@ -5,9 +5,13 @@ import { APP_URL_API } from "./config";
 export const routes = {
   home: "/",
 
+  login: "/login",
+
+  signup: "/signup",
+
   schedule: "/schedule",
 
-  todos: "/todos"
+  todos: "/todos",
 };
 
 export const routesApi = APP_URL_API;
