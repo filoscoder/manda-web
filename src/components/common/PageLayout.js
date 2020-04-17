@@ -3,42 +3,72 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 // App Imports
 import NavMenu from "./NavMenu";
+import ButtonBase from "./ButtonBase";
+import { Auth } from "../../setup/firebase";
 
 // Import ant-design
 import { Layout } from "antd";
-
-const { Sider, Header, Content } = Layout;
+import { LogoutOutlined } from "@ant-design/icons";
+const { Sider, Header, Content, message } = Layout;
 
 // Component
-const PageLayout = props => {
+const PageLayout = (props) => {
   // initialize
   const [collapseSider, setCollapseSider] = useState(true);
+  const [isLoading, setLoading] = useState(false);
+
+  const handleLogOut = (e) => {
+    setLoading(true);
+    console.log(e.target.value);
+
+    setTimeout(() => {
+      Auth.signOut().catch((error) => {
+        // Handle Errors here.
+        console.log("!Error[LOG-OUT] => ", error);
+        message.error(error.message);
+        setLoading(false);
+      });
+      setLoading(false);
+    }, 1500);
+  };
 
   return (
     <Layout style={{ height: "100%" }}>
-      {/* <Header>
-        <Link to="/">
-          <div>LOGO</div>
-        </Link>
-      </Header> */}
+      <Header style={{ display: "block" }}>
+        <div style={{ float: "left" }}>
+          <Link to="/">
+            <div>LOGO</div>
+          </Link>
+        </div>
+        <div style={{ float: "right" }}>
+          <ButtonBase
+            tooltip="See you soon!"
+            // btnText="Logout"
+            btntype="danger"
+            btnsize="small"
+            btnshape="circle"
+            onClick={handleLogOut}
+            loading={isLoading}
+          >
+            <LogoutOutlined />
+          </ButtonBase>
+        </div>
+      </Header>
       <Layout>
         <Sider
           collapsible
           collapsed={collapseSider}
           onCollapse={() => setCollapseSider(!collapseSider)}
-          collapsedWidth={60}
+          collapsedWidth={63}
           theme={props.pageTheme}
         >
           <NavMenu
             menuTheme={props.pageTheme}
             menuMode={"inline"}
-            menuInLineIndent={24}
+            menuInLineIndent={17}
             item1={"Inicio"}
-            itemIcon1={"home"}
             item2={"Calendario"}
-            itemIcon2={"calendar"}
             item3={"Tareas"}
-            itemIcon3={"bars"}
           />
         </Sider>
         <Content style={{ margin: "5px 15px" }}>
@@ -46,7 +76,7 @@ const PageLayout = props => {
             style={{
               padding: 5,
               background: "#ffff",
-              minHeight: "100vh"
+              minHeight: "87vh",
             }}
           >
             {props.children}

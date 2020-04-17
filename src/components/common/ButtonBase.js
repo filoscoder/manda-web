@@ -2,36 +2,33 @@
 import React from "react";
 
 // Import ant-design
-import { Tooltip, Button, Icon } from "antd";
+import { Tooltip, Button } from "antd";
 
 // Component
-const ButtonBase = props => {
+const ButtonBase = (props) => {
   return (
     <Tooltip title={props.tootltip}>
       <Button
-        type={props.btnType}
-        size={props.btnSize}
-        block={props.btnBlock}
-        shape={props.btnShape}
-        style={props.btnStyle}
+        type={props.btntype}
+        size={props.btnsize}
+        block={props.btnblock}
+        shape={props.btnshape}
+        style={props.btnstyle}
+        {...props}
       >
-        {props.btnText}
-        {props.iconType ? (
-          <Icon type={props.iconType}>{props.iconText}</Icon>
-        ) : (
-          ""
-        )}
+        {props.btntext}
+        {props.children}
       </Button>
     </Tooltip>
   );
 };
 
 ButtonBase.defaultProps = {
-  btnType: "default",
-  btnSize: "default",
-  btnBlock: false,
-  btnText: null,
-  iconText: null
+  btntype: "default",
+  btnsize: "default",
+  btnblock: "false",
+  btntext: undefined,
+  btnshape: "",
 };
 
 export default ButtonBase;

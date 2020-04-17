@@ -2,11 +2,12 @@
 import React from "react";
 
 // Import ant-design
-import { Menu, Icon } from "antd";
+import { Menu } from "antd";
+import { HomeFilled, CalendarFilled, ScheduleFilled } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
 // Component
-const NavMenu = props => {
+const NavMenu = (props) => {
   return (
     <>
       <Menu
@@ -18,19 +19,19 @@ const NavMenu = props => {
       >
         <Menu.Item key="1">
           <Link to="/">
-            <Icon type={props.itemIcon1} />
+            <HomeFilled />
             <span>{props.item1}</span>
           </Link>
         </Menu.Item>
         <Menu.Item key="2">
           <Link to="/schedule">
-            <Icon type={props.itemIcon2} />
+            <CalendarFilled />
             <span>{props.item2}</span>
           </Link>
         </Menu.Item>
         <Menu.Item key="3">
           <Link to="/todos">
-            <Icon type={props.itemIcon3} />
+            <ScheduleFilled />
             <span>{props.item3}</span>
           </Link>
         </Menu.Item>
@@ -48,7 +49,7 @@ NavMenu.defaultProps = {
   item2: null,
   itemIcon2: null,
   item3: null,
-  itemIcon3: null
+  itemIcon3: null,
 };
 
 export default NavMenu;
