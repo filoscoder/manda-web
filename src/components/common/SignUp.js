@@ -1,38 +1,45 @@
-import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
+// App & package imports
+import React, { useState, useContext } from "react";
+import { withRouter, Redirect } from "react-router-dom";
+import { AuthContext } from "../../helpers/Auth";
 import { Auth } from "../../setup/firebase";
-import { Form, Input, Button, Select, message } from "antd";
+// Style & UI Framework imports
+import { Form, Input, Button, message } from "antd";
 
-const { Option } = Select;
 const layout = {
   labelCol: {
-    span: 8,
+    span: 10,
   },
   wrapperCol: {
-    span: 16,
+    span: 5,
   },
 };
 const tailLayout = {
   wrapperCol: {
-    offset: 8,
+    offset: 4,
     span: 16,
   },
 };
 
-const SignUp = withRouter(({ history, props }) => {
-  const [isLoading, setLoading] = useState(false);
+/**
+ * * [Component]
+ * @param history : object => from withRouter
+ * @param props : object => could be undefined
+ */
+const SignUp = ({ history, props }) => {
+  /**
+   * * [Initialize]
+   */
   const [form] = Form.useForm();
+  const { currentUser } = useContext(AuthContext);
+  const [isLoading, setLoading] = useState(false);
 
-  const prefixSelector = (
-    <Form.Item name="prefix" noStyle>
-      <Select style={{ width: 70 }} value={"010"}>
-        <Option value="010">010</Option>
-        <Option value="070">070</Option>
-      </Select>
-    </Form.Item>
-  );
-
-  const onFinish = (values) => {
+  /**
+   * * [onSubmitForm]
+   * TODO: refactor => module Auth related method
+   * @param values : object => all input values
+   */
+  const onSubmitForm = (values) => {
     setLoading(true);
     console.log(values);
     setTimeout(() => {
@@ -53,79 +60,96 @@ const SignUp = withRouter(({ history, props }) => {
     }, 1000);
   };
 
-  const onReset = () => {
+  /**
+   * * [onResetForm]
+   */
+  const onResetForm = () => {
     form.resetFields();
   };
 
-  return (
-    <>
-      <div
-        style={{
-          fontSize: "2rem",
-          marginTop: "90px",
-          marginLeft: "auto",
-          marginRight: "auto",
-        }}
-      >
-        <h1>Test-Auth-SignUp</h1>
-      </div>
-      <div
-        className="login-form"
-        style={{
-          textAlign: "center",
-          marginTop: "50px",
-          marginLeft: "auto",
-          marginRight: "auto",
-        }}
-      >
-        <Form {...layout} form={form} name="control-hooks" onFinish={onFinish}>
-          <Form.Item
-            name="email"
-            label="이매일"
-            rules={[{ required: true, message: "[이메일]을 입력하세요!" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="password"
-            label="비밀번호"
-            rules={[{ required: true, message: "[비밀번호]를 입력하세요!" }]}
-          >
-            <Input type="password" placeholder="비밀번호를 입력해주세요" />
-          </Form.Item>
-          <Form.Item name="name" label="이름" rules={[{}]}>
-            <Input />
-          </Form.Item>
+  /**
+   * * [Render]
+   * ! if there is a ${currentUser} redirect to "/"
+   * ? Allowing to get all personal data from users? (only email & pw?)
+   * TODO: refactor UI
+   * @param currentUser : provided by AuthContext
+   */
 
-          <Form.Item name="location" label="위치">
-            <Select placeholder="위치를 선택하세요" allowClear>
-              <Option value="13층">13층</Option>
-              <Option value="14층">14층</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="phone"
-            label="전화번호"
-            rules={[{ message: "Please input your phone number!" }]}
+  if (currentUser) {
+    return <Redirect to="/" />;
+  } else {
+    return (
+      <>
+        <div
+          style={{
+            textAlign: "center",
+            fontSize: "2rem",
+            marginTop: "90px",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        >
+          <h1>SignUp</h1>
+        </div>
+        <div
+          style={{
+            textAlign: "center",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        >
+          <Form
+            {...layout}
+            form={form}
+            name="signup-form"
+            onFinish={onSubmitForm}
           >
-            <Input
-              addonBefore={prefixSelector}
-              style={{ width: "100%" }}
-              placeholder="숫자만 입력하세요"
-            />
-          </Form.Item>
-          <Form.Item {...tailLayout}>
-            <Button type="primary" htmlType="submit" loading={isLoading}>
-              가입하기
-            </Button>
-            <Button htmlType="button" onClick={onReset}>
-              초기화
-            </Button>
-          </Form.Item>
-        </Form>
-      </div>
-    </>
-  );
-});
+            <Form.Item
+              name="email"
+              label="Email"
+              rules={[
+                {
+                  required: true,
+                  message:
+                    "Please enter an avaiable [email]. We will send you a verification link!",
+                },
+              ]}
+            >
+              <Input placeholder="my-email@com.com" />
+            </Form.Item>
+            <Form.Item
+              name="password"
+              label="Password"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter at least 6 characters",
+                },
+              ]}
+            >
+              <Input.Password type="password" placeholder="my-password" />
+            </Form.Item>
+            <Form.Item
+              name="nickname"
+              label="Nickname"
+              rules={[{ required: true }]}
+            >
+              <Input placeholder="How do we call you?" />
+            </Form.Item>
 
-export default SignUp;
+            <Form.Item {...tailLayout}>
+              <Button type="primary" htmlType="submit" loading={isLoading}>
+                가입하기
+              </Button>
+              <Button htmlType="button" onClick={onResetForm}>
+                초기화
+              </Button>
+            </Form.Item>
+          </Form>
+        </div>
+      </>
+    );
+  }
+};
+
+export default withRouter(SignUp);
