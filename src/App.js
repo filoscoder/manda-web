@@ -4,19 +4,22 @@ import React, { Suspense } from "react";
 import PageLayout from "./components/common/PageLayout";
 import Loading from "./components/common/Loading";
 import ErrorBoundary from "./components/common/ErrorBoundary";
+import { PriorityColorProvider } from "./const/theme";
 // Import ant-design
 import "antd/dist/antd.css";
 
-const Router = React.lazy(() => import("./router"));
+const Router = React.lazy(() => import("./setup/router"));
 // Component
 const App = () => (
-  <PageLayout pageTheme={"dark"}>
-    <Suspense fallback={<Loading />}>
-      <ErrorBoundary>
-        <Router />
-      </ErrorBoundary>
-    </Suspense>
-  </PageLayout>
+  <Suspense fallback={<Loading />}>
+    <ErrorBoundary>
+      <PriorityColorProvider>
+        <PageLayout pageTheme={"dark"}>
+          <Router />
+        </PageLayout>
+      </PriorityColorProvider>
+    </ErrorBoundary>
+  </Suspense>
 );
 
 export default App;

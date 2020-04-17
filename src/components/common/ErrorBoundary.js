@@ -1,4 +1,5 @@
 import React from "react";
+import NotFoundPage from "./NotFoundPage";
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class ErrorBoundary extends React.Component {
     // Catch errors in any components below and re-render with error message
     this.setState({
       error: error,
-      errorInfo: errorInfo
+      errorInfo: errorInfo,
     });
     // You can also log error messages to an error reporting service here
   }
@@ -21,16 +22,18 @@ class ErrorBoundary extends React.Component {
       return (
         <div>
           <h2>문제가 생겼습니다, 새로고침하여 주세요 :(</h2>
-          <details style={{ whiteSpace: "pre-wrap" }}>
+          <NotFoundPage />
+          {/* <details style={{ whiteSpace: "pre-wrap" }}>
             {this.state.error && this.state.error.toString()}
             <br />
             {this.state.errorInfo.componentStack}
-          </details>
+          </details> */}
         </div>
       );
+    } else {
+      // Normally, just render children
+      return this.props.children;
     }
-    // Normally, just render children
-    return this.props.children;
   }
 }
 

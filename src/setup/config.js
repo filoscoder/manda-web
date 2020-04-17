@@ -1,9 +1,5 @@
 // Configurations
 
-// URL
-export const APP_URL = process.env.REACT_APP_URL;
-export const APP_URL_API = process.env.REACT_APP_URL_API;
-
 // FIREBASE
 export const FIREBASE_CONFIG = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
