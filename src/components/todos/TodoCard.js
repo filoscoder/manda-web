@@ -1,5 +1,5 @@
 // Imports
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import moment from "moment";
 import { Draggable } from "react-beautiful-dnd";
 
@@ -7,21 +7,21 @@ import { Draggable } from "react-beautiful-dnd";
 import { getCardStyle, getTagContentStyle } from "../../utils/dndUtil";
 
 // Import ant-design
-import { Tag, Tooltip, Card, Checkbox, Select, Icon } from "antd";
+import { Tooltip, Card, Checkbox, Select } from "antd";
 const { Meta } = Card;
 
 // Component
-const TodoCard = props => {
+const TodoCard = (props) => {
   // Initialize
   const [tagOptions, setTagOptions] = useState([props.client, props.vendor]);
   const [editTags, setEditTags] = useState(true);
   // Called when [Card] checkbox is clicked
-  const handleCheckBox = e => {
+  const handleCheckBox = (e) => {
     console.log(`checked = ${e.target.checked}`);
     console.log(e.target);
   };
 
-  const handleTagInput = value => {
+  const handleTagInput = (value) => {
     setTagOptions(() => [...tagOptions, value]);
     console.log(tagOptions);
   };
@@ -42,7 +42,7 @@ const TodoCard = props => {
             headStyle={{ border: "none" }}
             bodyStyle={{ padding: "auto" }}
             title={
-              props.todoType === "Work" ? (
+              props.todoType === "work" ? (
                 <Checkbox className={props.dragId} onChange={handleCheckBox}>
                   <Tooltip title={props.taskContent}>
                     {props.taskContent}
@@ -55,7 +55,7 @@ const TodoCard = props => {
           >
             <Meta
               title={
-                props.todoType === "Personal" ? (
+                props.todoType === "personal" ? (
                   <Checkbox onChange={handleCheckBox}>
                     <Tooltip title={props.taskContent}>
                       {props.taskContent}
@@ -65,14 +65,13 @@ const TodoCard = props => {
                   <Select
                     size="small"
                     mode="tags"
-                    showArrow
-                    suffixIcon={
-                      <Icon
-                        type="tag"
-                        theme="filled"
-                        style={{ color: "#00152A" }}
-                      />
-                    }
+                    // suffixIcon={
+                    //   <Icon
+                    //     type="tag"
+                    //     theme="filled"
+                    //     style={{ color: "#00152A" }}
+                    //   />
+                    // }
                     defaultValue={tagOptions}
                     tokenSeparators={[","]}
                     disabled={editTags}
@@ -99,7 +98,7 @@ TodoCard.defaultProps = {
   client: "APPLE KR",
   vendor: "앱스토어",
   createdAt: "",
-  updatedAt: ""
+  updatedAt: "",
 };
 
 export default TodoCard;
