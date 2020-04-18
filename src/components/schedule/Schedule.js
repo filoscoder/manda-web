@@ -1,19 +1,18 @@
 // Imports
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import moment from "moment";
 // App Imports
 import TodoList from "../todos/TodoList";
-
+import { getTodosByMode } from "../../api/todos";
 // Import ant-design
 import { Calendar, Badge, Drawer } from "antd";
+import { ScheduleOutlined, SolutionOutlined } from "@ant-design/icons";
 
 // Component
-const Schedule = props => {
+const Schedule = (props) => {
   // initialize
   const [showDrawer, setShowDrawer] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(
-    moment(new Date()).format("MMMM - Do")
-  );
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedMode, setSelectedMode] = useState("month");
 
   /*
@@ -21,18 +20,20 @@ const Schedule = props => {
    */
 
   // Called when [Date] || [Month] is selected
-  const getSelectedGrid = value => {
-    console.log("SELECTED [GRID] => ", selectedDate);
-
+  const getSelectedGrid = (value) => {
     switch (selectedMode) {
       case "month":
-        setSelectedDate(moment(value).format("MMMM - Do"));
+        setSelectedDate(() => new Date(value));
+        // getTodosByMode(selectedMode, selectedDate);
+        console.log("SELECTED [GRID] => ", selectedDate);
         break;
       case "year":
-        setSelectedDate(moment(value).format("MMMM - YYYY"));
+        setSelectedDate(() => new Date(value));
+        // getTodosByMode(selectedMode, selectedDate);
+        console.log("SELECTED [GRID] => ", selectedDate);
         break;
       default:
-        setSelectedDate(moment(value).format("MMMM - Do"));
+        setSelectedDate(new Date(value));
         break;
     }
     // show Todo [Drawer]
@@ -47,26 +48,26 @@ const Schedule = props => {
   };
 
   // Selected [Date] Todo list
-  const getListData = value => {
+  const getListData = (value) => {
     // console.log("getListData: VALUE: ", value.date());
     let listData;
     switch (value.date()) {
       case 20:
         listData = [
           { type: "warning", content: "This is warning event." },
-          { type: "success", content: "This is usual event." }
+          { type: "success", content: "This is usual event." },
         ];
         break;
       case 19:
         listData = [
-          { type: "warning", content: "This is warning event." }
+          { type: "warning", content: "This is warning event." },
           // { type: "success", content: "This is usual event." },
           // { type: "error", content: "This is error event." }
         ];
         break;
       case 15:
         listData = [
-          { type: "warning", content: "This is warning event" }
+          { type: "warning", content: "This is warning event" },
           // { type: "success", content: "This is very long usual event。。...." },
           // { type: "error", content: "This is error event 1." },
           // { type: "error", content: "This is error event 2." },
@@ -80,11 +81,11 @@ const Schedule = props => {
   };
 
   // Render [Date] todo preview data
-  const dateCellRender = value => {
+  const dateCellRender = (value) => {
     const listData = getListData(value);
     return (
       <ul className="events">
-        {listData.map(item => (
+        {listData.map((item) => (
           <li key={item.content}>
             <Badge status={item.type} text={item.content} />
           </li>
@@ -94,13 +95,13 @@ const Schedule = props => {
   };
 
   // [Month] functions
-  const getMonthData = value => {
+  const getMonthData = (value) => {
     if (value.month() === 8) {
       return 1394;
     }
   };
 
-  const monthCellRender = value => {
+  const monthCellRender = (value) => {
     const num = getMonthData(value);
     return num ? (
       <div className="ant-fullcalendar-month-panel-cell">
@@ -113,17 +114,13 @@ const Schedule = props => {
   /*
    * [Drawer] Helper function
    */
-  // const handleEditingClosing = key => value => {
-  //   setEditingClosing(prev => ({
-  //     ...prev,
-  //     [key]: value
-  //   }));
-  //   console.log("edting", editingClosing);
-  // };
+  useEffect(() => {
+    getTodosByMode(selectedMode, selectedDate);
+  }, [selectedMode, selectedDate]);
 
   return (
     <>
-      <div>
+      <div style={{ padding: 15 }}>
         <Calendar
           onPanelChange={getSelectedPanel}
           dateCellRender={dateCellRender}
@@ -132,7 +129,7 @@ const Schedule = props => {
         />
       </div>
       <Drawer
-        title={selectedDate}
+        title={moment(selectedDate).format("MMMM - Do")}
         placement="left"
         closable={true}
         onClose={() => {
@@ -141,7 +138,12 @@ const Schedule = props => {
         visible={showDrawer}
         width={320}
       >
-        <TodoList selectedMode={selectedMode} />
+        <TodoList
+          selectedMode={selectedMode}
+          selectedDate={selectedDate}
+          tab1Icon={<ScheduleOutlined />}
+          tab2Icon={<SolutionOutlined />}
+        />
       </Drawer>
     </>
   );

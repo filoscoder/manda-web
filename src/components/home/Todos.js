@@ -2,8 +2,8 @@
 import React from "react";
 
 // import dummyData from "../../dummyTodos";
-
-import { Tabs, Icon } from "antd";
+import { ScheduleOutlined, SolutionOutlined } from "@ant-design/icons";
+import { Tabs } from "antd";
 
 const { TabPane } = Tabs;
 
@@ -13,30 +13,32 @@ const Todos = () => {
     console.log(key);
   }
   return (
-    <Tabs onChange={callback} type="card">
-      <TabPane
-        tab={
-          <span>
-            <Icon type="shopping" />
-            Work
-          </span>
-        }
-        key="1"
-      >
-        Content of Tab Pane 1
-      </TabPane>
-      <TabPane
-        tab={
-          <span>
-            <Icon type="idcard" />
-            Personal
-          </span>
-        }
-        key="2"
-      >
-        Content of Tab Pane 2
-      </TabPane>
-    </Tabs>
+    <div style={{ padding: 20 }}>
+      <Tabs onChange={callback} type="card">
+        <TabPane
+          tab={
+            <span>
+              <ScheduleOutlined />
+              Work
+            </span>
+          }
+          key="1"
+        >
+          Content of Tab Pane 1
+        </TabPane>
+        <TabPane
+          tab={
+            <span>
+              <SolutionOutlined />
+              Personal
+            </span>
+          }
+          key="2"
+        >
+          Content of Tab Pane 2
+        </TabPane>
+      </Tabs>
+    </div>
   );
 };
 
