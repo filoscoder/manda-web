@@ -2,9 +2,9 @@
 import React, { useState, useContext } from "react";
 import { withRouter, Redirect } from "react-router-dom";
 import { AuthContext } from "../../helpers/Auth";
-import { Auth } from "../../setup/firebase";
+import { signUpUserWithEmailAndPasswordApi } from "../../api/signup";
 // Style & UI Framework imports
-import { Form, Input, Button, message } from "antd";
+import { Form, Input, Button } from "antd";
 
 const layout = {
   labelCol: {
@@ -39,25 +39,14 @@ const SignUp = ({ history, props }) => {
    * TODO: refactor => module Auth related method
    * @param values : object => all input values
    */
-  const onSubmitForm = (values) => {
+  const onSubmitForm = (signupData) => {
     setLoading(true);
-    console.log(values);
+    console.log(signupData);
     setTimeout(() => {
-      Auth.createUserWithEmailAndPassword(values.email, values.password)
-        .then((cred) => {
-          if (cred.user) {
-            console.log("[SIGN-UP] => User signed up!");
-            history.push("/");
-            setLoading(false);
-          }
-        })
-        .catch((error) => {
-          // Handle Errors here.
-          console.log("!Error[SIGN-UP] => ", error);
-          message.error(error.message);
-          setLoading(false);
-        });
-    }, 1000);
+      setLoading(false);
+      signUpUserWithEmailAndPasswordApi(signupData);
+      history.push("/");
+    }, 900);
   };
 
   /**
@@ -103,6 +92,7 @@ const SignUp = ({ history, props }) => {
             form={form}
             name="signup-form"
             onFinish={onSubmitForm}
+            colon={false}
           >
             <Form.Item
               name="email"
