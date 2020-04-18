@@ -1,30 +1,27 @@
 // Imports
 import React, { useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-// App imports
 import ButtonBase from "../common/ButtonBase";
+
 // Util imports
 import {
   getCardDraggingStyle,
   getRemoveDroppingStyle,
-  getDroppableDisplayStyle
+  getDroppableDisplayStyle,
 } from "../../utils/dndUtil";
 
 import { Layout } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 
-const { Header, Content, Footer } = Layout;
+const { Content, Footer } = Layout;
 
 // Component
-const DndLayout = props => {
+const DndLayout = (props) => {
   // Initialize
   const [isDragging, setIsDragging] = useState(false);
-  // Called when "+" button ("Add to-do!") is clicked
-  const addNewTodo = event => {
-    console.log("[NEW TODO BUTTON] => ", event);
-  };
 
   // <DragDropContext> methods
-  const onBeforeCapture = isDraggingOver => {
+  const onBeforeCapture = (isDraggingOver) => {
     setIsDragging(isDraggingOver);
     // console.log("DRAG [START]!!!!!? => ", isDragging);
   };
@@ -32,7 +29,7 @@ const DndLayout = props => {
     setIsDragging(true);
     console.log("DRAG [START]!!!!!? => ", isDragging);
   };
-  const onDragEnd = result => {
+  const onDragEnd = (result) => {
     setIsDragging(false);
     const { source, destination } = result;
 
@@ -57,16 +54,6 @@ const DndLayout = props => {
   return (
     <Layout hasSider={false}>
       {/* Create new To-do Button */}
-      <Header style={{ background: "white" }}>
-        <ButtonBase
-          tooltip="Add to-do!"
-          btnSize="large"
-          btnBlock={true}
-          btnStyle={{ background: "#55ba5c", color: "white", border: "none" }}
-          iconType="plus"
-          onClick={addNewTodo}
-        />
-      </Header>
       <DragDropContext
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
@@ -102,11 +89,12 @@ const DndLayout = props => {
               <Footer style={getRemoveDroppingStyle(snapshot.isDraggingOver)}>
                 <ButtonBase
                   tooltip="Delete to-do?"
-                  btnType="danger"
-                  btnSize="large"
-                  btnShape="round"
-                  iconType="delete"
-                />
+                  btntype="danger"
+                  btnsize="large"
+                  btnshape="round"
+                >
+                  <DeleteOutlined />
+                </ButtonBase>
               </Footer>
             </div>
           )}
@@ -119,7 +107,7 @@ const DndLayout = props => {
 DndLayout.defaultProps = {
   dropToReorderCard: "dropable-todos",
   dropToRemoveCard: "dropable-remove",
-  dropType: "WORK"
+  dropType: "WORK",
 };
 
 export default DndLayout;

@@ -46,7 +46,7 @@ const PageLayout = (props) => {
             // btnText="Logout"
             btntype="danger"
             btnsize="small"
-            btnshape="circle"
+            btnshape="default"
             onClick={handleLogOut}
             loading={isLoading}
           >
@@ -71,12 +71,12 @@ const PageLayout = (props) => {
             item3={"Tareas"}
           />
         </Sider>
-        <Content style={{ margin: "5px 15px" }}>
+        <Content style={{ margin: "0px" }}>
           <div
             style={{
-              padding: 5,
+              padding: 0,
               background: "#ffff",
-              minHeight: "87vh",
+              minHeight: "92vh",
             }}
           >
             {props.children}
